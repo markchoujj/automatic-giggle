@@ -1,4 +1,5 @@
 class Person < ApplicationRecord
+  paginates_per 10
   has_many :person_affiliations
   has_many :person_locations
   has_many :affiliations, through: :person_affiliations

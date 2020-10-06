@@ -36,7 +36,7 @@ class CsvProcessor
         gender = formalize_gender(gender)
         #get weapon
         weapon = individual[indexes[5]]
-        weapon = weapon.gsub!(/\W+/, '') if weapon.present?
+        weapon = weapon.gsub(/[^a-zA-Z. ]/, '') if weapon.present?
         #create person
         person = Person.create!(
           first_name: first_name,

@@ -1,5 +1,53 @@
-<%= form_tag({action: :import, method: :post}, multipart: true) do %>
-  <%= label_tag "Upload File:" %>
-  <%= file_field_tag 'file' %>
-  <%= submit_tag("upload") %>
+<% unless @people.any? %>
+  <%= form_tag({action: :import, method: :post}, multipart: true) do %>
+    <%= label_tag "Upload File:" %>
+    <%= file_field_tag 'file' %>
+    <%= submit_tag("upload") %>
+  <% end %>
+<% end %>
+
+<% if @people.any? %>
+  <%= search_form_for @q do |f| %>
+    <%= f.label :first_name_cont %>
+    <%= f.search_field :first_name_cont %>
+    <%= f.label :last_name_cont %>
+    <%= f.search_field :last_name_cont %><br>
+    <%= f.label :location_name_cont %>
+    <%= f.search_field :locations_name_cont %>
+    <%= f.label :species_cont %>
+    <%= f.search_field :species_cont %><br>
+    <%= f.label :affiliations_name_cont %>
+    <%= f.search_field :affiliations_name_cont %>
+    <%= f.label :weapon_cont %>
+    <%= f.search_field :weapon_cont %><br>
+    <%= f.label :vehicle_cont %>
+    <%= f.search_field :vehicle_cont %>
+    <%= f.submit %>
+  <% end %>
+  <br>
+  <table>
+    <tr>
+      <th><%= sort_link(@q, :first_name) %></th>
+      <th><%= sort_link(@q, :last_name) %></th>
+      <th><%= sort_link(@q, :locations_name, "Location") %></th>
+      <th><%= sort_link(@q, :species) %></th>
+      <th><%= sort_link(@q, :gender) %></th>
+      <th><%= sort_link(@q, :affiliations_name, 'Affiliations') %></th>
+      <th><%= sort_link(@q, :weapon) %></th>
+      <th><%= sort_link(@q, :vehicle) %></th>
+    </tr>
+    <% @people.each do |person| %>
+      <tr>
+        <td><%= person.first_name %></td>
+        <td><%= person.last_name %></td>
+        <td><%= person.locations.pluck(:name).join(",") %></td>
+        <td><%= person.species %></td>
+        <td><%= person.gender %></td>
+        <td><%= person.affiliations.pluck(:name).join(",") %></td>
+        <td><%= person.weapon %></td>
+        <td><%= person.vehicle %></td>
+      </tr>
+    <% end %>
+  </table>
+  <%= paginate @people %>
 <% end %>

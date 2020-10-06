@@ -2,6 +2,8 @@ require 'csv'
 
 class PeopleController < ApplicationController
   def index
+    @q = Person.all.ransack(params[:q])
+    @people = @q.result.includes(:locations, :affiliations).page(params[:page])
   end
 
   def import
