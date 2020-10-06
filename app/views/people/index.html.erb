@@ -1,0 +1,5 @@
+<%= form_tag({action: :import, method: :post}, multipart: true) do %>
+  <%= label_tag "Upload File:" %>
+  <%= file_field_tag 'file' %>
+  <%= submit_tag("upload") %>
+<% end %>
